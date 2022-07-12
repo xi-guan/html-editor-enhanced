@@ -465,8 +465,8 @@ class _HtmlEditorWidgetWebState extends State<HtmlEditorWidget> {
             '"assets/packages/html_editor_enhanced/assets/summernote-lite.min.js"');
     if (widget.callbacks != null) addJSListener(widget.callbacks!);
     final iframe = html.IFrameElement()
-      ..width = MediaQuery.of(widget.initBC).size.width.toString() //'800'
-      ..height = widget.htmlEditorOptions.autoAdjustHeight
+      ..style.width = MediaQuery.of(widget.initBC).size.width.toString() //'800'
+      ..style.height = widget.htmlEditorOptions.autoAdjustHeight
           ? actualHeight.toString()
           : widget.otherOptions.height.toString()
       // ignore: unsafe_html, necessary to load HTML string
