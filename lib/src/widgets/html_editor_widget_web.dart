@@ -243,6 +243,7 @@ class _HtmlEditorWidgetWebState extends State<HtmlEditorWidget> {
               if (data["type"].includes("setInputType")) {
                 document.getElementsByClassName('note-editable')[0].setAttribute('inputmode', '${describeEnum(widget.htmlEditorOptions.inputType)}');
                 document.getElementsByClassName('note-editable')[0].setAttribute('spellcheck', '${widget.htmlEditorOptions.spellCheck}');
+                document.getElementsByClassName('note-codable')[0].setAttribute('spellcheck', '${widget.htmlEditorOptions.spellCheck}');
               }
               if (data["type"].includes("setText")) {
                 \$('#summernote-2').summernote('code', data["text"]);
