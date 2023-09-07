@@ -6,10 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
-import 'package:html_editor_enhanced/utils/utils.dart';
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
 import 'package:html_editor_enhanced/utils/shims/dart_ui.dart' as ui;
+import 'package:html_editor_enhanced/utils/utils.dart';
 
 /// The HTML Editor widget itself, for web (uses IFrameElement)
 class HtmlEditorWidget extends StatefulWidget {
@@ -228,7 +226,7 @@ class _HtmlEditorWidgetWebState extends State<HtmlEditorWidget> {
         // console.log('done');
       
         function handleMessage(e) {
-          if (e && e.data && e.data.includes("toIframe:")) {
+          if (e && e.data && e.data.includes && e.data.includes("toIframe:")) {
             var data = JSON.parse(e.data);
             if (data["view"].includes("$createdViewId") && data["type"]!=null) {
               if (data["type"].includes("getText")) {
