@@ -226,7 +226,7 @@ class _HtmlEditorWidgetWebState extends State<HtmlEditorWidget> {
         // console.log('done');
       
         function handleMessage(e) {
-          if (e && e.data && e.data.includes && e.data.includes("toIframe:")) {
+          if (e && e.data && typeof e.data === 'string' && e.data.includes("toIframe:")) {
             var data = JSON.parse(e.data);
             if (data["view"].includes("$createdViewId") && data["type"]!=null) {
               if (data["type"].includes("getText")) {
