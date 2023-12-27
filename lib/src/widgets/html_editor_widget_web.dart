@@ -228,7 +228,7 @@ class _HtmlEditorWidgetWebState extends State<HtmlEditorWidget> {
         function handleMessage(e) {
           if (e && e.data && typeof e.data === 'string' && e.data.includes("toIframe:")) {
             var data = JSON.parse(e.data);
-            if (data["view"].includes("$createdViewId") && data["type"]!=null) {
+            if (data["view"] && data["view"].includes("$createdViewId") && data["type"]!=null) {
               if (data["type"].includes("getText")) {
                 var str = \$('#summernote-2').summernote('code');
                 window.parent.postMessage(JSON.stringify({"type": "toDart: getText", "text": str}), "*");
