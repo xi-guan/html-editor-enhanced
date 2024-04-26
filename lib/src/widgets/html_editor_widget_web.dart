@@ -2,7 +2,6 @@ import 'dart:convert';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
@@ -238,7 +237,7 @@ class _HtmlEditorWidgetWebState extends State<HtmlEditorWidget> {
                 window.parent.postMessage(JSON.stringify({"view": "$createdViewId", "type": "toDart: htmlHeight", "height": height}), "*");
               }
               if (data["type"].includes("setInputType")) {
-                document.getElementsByClassName('note-editable')[0].setAttribute('inputmode', '${describeEnum(widget.htmlEditorOptions.inputType)}');
+                document.getElementsByClassName('note-editable')[0].setAttribute('inputmode', '${widget.htmlEditorOptions.inputType.name}');
                 document.getElementsByClassName('note-editable')[0].setAttribute('spellcheck', '${widget.htmlEditorOptions.spellCheck}');
                 document.getElementsByClassName('note-codable')[0].setAttribute('spellcheck', '${widget.htmlEditorOptions.spellCheck}');
               }
@@ -507,8 +506,8 @@ class _HtmlEditorWidgetWebState extends State<HtmlEditorWidget> {
             if (widget.callbacks != null && widget.callbacks!.onChangeContent != null) {
               widget.callbacks!.onChangeContent!.call(data['contents']);
             }
-            if (widget.htmlEditorOptions.shouldEnsureVisible && Scrollable.of(context) != null) {
-              Scrollable.of(context)!.position.ensureVisible(context.findRenderObject()!,
+            if (widget.htmlEditorOptions.shouldEnsureVisible) {
+              Scrollable.of(context).position.ensureVisible(context.findRenderObject()!,
                   duration: const Duration(milliseconds: 100), curve: Curves.easeIn);
             }
           }

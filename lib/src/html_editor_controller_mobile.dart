@@ -2,8 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
-import 'package:html_editor_enhanced/src/html_editor_controller_unsupported.dart'
-    as unsupported;
+import 'package:html_editor_enhanced/src/html_editor_controller_unsupported.dart' as unsupported;
 
 /// Controller for mobile
 class HtmlEditorController extends unsupported.HtmlEditorController {
@@ -52,28 +51,22 @@ class HtmlEditorController extends unsupported.HtmlEditorController {
   /// is complete
   @override
   // ignore: unnecessary_getters_setters
-  set editorController(dynamic controller) =>
-      _editorController = controller as InAppWebViewController?;
+  set editorController(dynamic controller) => _editorController = controller as InAppWebViewController?;
 
   /// A function to quickly call a document.execCommand function in a readable format
   @override
   void execCommand(String command, {String? argument}) {
-    _evaluateJavascript(
-        source:
-            "document.execCommand('$command', false${argument == null ? "" : ", '$argument'"});");
+    _evaluateJavascript(source: "document.execCommand('$command', false${argument == null ? "" : ", '$argument'"});");
   }
 
   /// Gets the text from the editor and returns it as a [String].
   @override
   Future<String> getText() async {
-    var text = await _evaluateJavascript(
-        source: "\$('#summernote-2').summernote('code');") as String?;
+    var text = await _evaluateJavascript(source: "\$('#summernote-2').summernote('code');") as String?;
     if (processOutputHtml &&
-        (text == null ||
-            text.isEmpty ||
-            text == '<p></p>' ||
-            text == '<p><br></p>' ||
-            text == '<p><br/></p>')) text = '';
+        (text == null || text.isEmpty || text == '<p></p>' || text == '<p><br></p>' || text == '<p><br/></p>')) {
+      text = '';
+    }
     return text ?? '';
   }
 
@@ -82,15 +75,13 @@ class HtmlEditorController extends unsupported.HtmlEditorController {
   @override
   void setText(String text) {
     text = _processHtml(html: text);
-    _evaluateJavascript(
-        source: "\$('#summernote-2').summernote('code', '$text');");
+    _evaluateJavascript(source: "\$('#summernote-2').summernote('code', '$text');");
   }
 
   /// Sets the editor to full-screen mode.
   @override
   void setFullScreen() {
-    _evaluateJavascript(
-        source: '\$("#summernote-2").summernote("fullscreen.toggle");');
+    _evaluateJavascript(source: '\$("#summernote-2").summernote("fullscreen.toggle");');
   }
 
   /// Sets the focus to the editor.
@@ -116,8 +107,7 @@ class HtmlEditorController extends unsupported.HtmlEditorController {
   /// toggles the codeview in the Html editor
   @override
   void toggleCodeView() {
-    _evaluateJavascript(
-        source: "\$('#summernote-2').summernote('codeview.toggle');");
+    _evaluateJavascript(source: "\$('#summernote-2').summernote('codeview.toggle');");
   }
 
   /// disables the Html editor
@@ -150,8 +140,7 @@ class HtmlEditorController extends unsupported.HtmlEditorController {
   /// Note: This method should only be used for plaintext strings
   @override
   void insertText(String text) {
-    _evaluateJavascript(
-        source: "\$('#summernote-2').summernote('insertText', '$text');");
+    _evaluateJavascript(source: "\$('#summernote-2').summernote('insertText', '$text');");
   }
 
   /// Insert HTML at the position of the cursor in the editor
@@ -159,16 +148,13 @@ class HtmlEditorController extends unsupported.HtmlEditorController {
   @override
   void insertHtml(String html) {
     html = _processHtml(html: html);
-    _evaluateJavascript(
-        source: "\$('#summernote-2').summernote('pasteHTML', '$html');");
+    _evaluateJavascript(source: "\$('#summernote-2').summernote('pasteHTML', '$html');");
   }
 
   /// Insert a network image at the position of the cursor in the editor
   @override
   void insertNetworkImage(String url, {String filename = ''}) {
-    _evaluateJavascript(
-        source:
-            "\$('#summernote-2').summernote('insertImage', '$url', '$filename');");
+    _evaluateJavascript(source: "\$('#summernote-2').summernote('insertImage', '$url', '$filename');");
   }
 
   /// Insert a link at the position of the cursor in the editor
@@ -203,9 +189,7 @@ class HtmlEditorController extends unsupported.HtmlEditorController {
   /// when [adjustHeightForKeyboard] is enabled.
   @override
   void resetHeight() {
-    _evaluateJavascript(
-        source:
-            "window.flutter_inappwebview.callHandler('setHeight', 'reset');");
+    _evaluateJavascript(source: "window.flutter_inappwebview.callHandler('setHeight', 'reset');");
   }
 
   /// Recalculates the height of the editor to remove any vertical scrolling.
@@ -224,7 +208,7 @@ class HtmlEditorController extends unsupported.HtmlEditorController {
   void addNotification(String html, NotificationType notificationType) async {
     await _evaluateJavascript(source: """
         \$('.note-status-output').html(
-          '<div class="alert alert-${describeEnum(notificationType)}">$html</div>'
+          '<div class="alert alert-${notificationType.name}">$html</div>'
         );
         """);
     recalculateHeight();
@@ -240,11 +224,7 @@ class HtmlEditorController extends unsupported.HtmlEditorController {
   /// Helper function to process input html
   String _processHtml({required html}) {
     if (processInputHtml) {
-      html = html
-          .replaceAll("'", r"\'")
-          .replaceAll('"', r'\"')
-          .replaceAll('\r', '')
-          .replaceAll('\r\n', '');
+      html = html.replaceAll("'", r"\'").replaceAll('"', r'\"').replaceAll('\r', '').replaceAll('\r\n', '');
     }
     if (processNewLineAsBr) {
       html = html.replaceAll('\n', '<br/>').replaceAll('\n\n', '<br/>');
@@ -258,8 +238,7 @@ class HtmlEditorController extends unsupported.HtmlEditorController {
   dynamic _evaluateJavascript({required source}) async {
     if (!kIsWeb) {
       if (editorController == null || await editorController!.isLoading()) {
-        throw Exception(
-            'HTML editor is still loading, please wait before evaluating this JS: $source!');
+        throw Exception('HTML editor is still loading, please wait before evaluating this JS: $source!');
       }
       var result = await editorController!.evaluateJavascript(source: source);
       return result;
