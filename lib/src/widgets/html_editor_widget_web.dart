@@ -507,8 +507,8 @@ class _HtmlEditorWidgetWebState extends State<HtmlEditorWidget> {
             if (widget.callbacks != null && widget.callbacks!.onChangeContent != null) {
               widget.callbacks!.onChangeContent!.call(data['contents']);
             }
-            if (widget.htmlEditorOptions.shouldEnsureVisible) {
-              Scrollable.of(context).position.ensureVisible(context.findRenderObject()!,
+            if (widget.htmlEditorOptions.shouldEnsureVisible && Scrollable.of(context) != null) {
+              Scrollable.of(context)!.position.ensureVisible(context.findRenderObject()!,
                   duration: const Duration(milliseconds: 100), curve: Curves.easeIn);
             }
           }
