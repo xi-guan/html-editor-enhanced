@@ -1,11 +1,11 @@
 import 'dart:convert';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
+import 'dart:ui_web' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
-import 'package:html_editor_enhanced/utils/shims/dart_ui.dart' as ui;
 import 'package:html_editor_enhanced/utils/utils.dart';
 
 /// The HTML Editor widget itself, for web (uses IFrameElement)
